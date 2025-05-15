@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Online_Quiz_App.Data;
+using System.Security.Claims;
 using Online_Quiz_App.Models;
 
 namespace Online_Quiz_App.Controllers
@@ -169,17 +170,16 @@ namespace Online_Quiz_App.Controllers
 
 
 
-        [HttpPost]
+        // ...
+
         [HttpPost]
         public async Task<IActionResult> SubmitQuiz(SubmitQuizViewModel model)
         {
-
             // Fetch the quiz with its questions and options
             var quiz = await _context.Quizzes
-            .Include(q => q.Questions)
-            .ThenInclude(q => q.Options)
-            .FirstOrDefaultAsync(q => q.QuizId == model.QuizId);
-
+                .Include(q => q.Questions)
+                .ThenInclude(q => q.Options)
+                .FirstOrDefaultAsync(q => q.QuizId == model.QuizId);
 
             if (quiz == null)
             {
@@ -191,23 +191,39 @@ namespace Online_Quiz_App.Controllers
                 model.Answers = new Dictionary<int, string>();
             }
 
-
-
             // Calculate the total number of questions and correct answers using LINQ
             int totalQuestions = quiz.Questions.Count;
             int correctAnswers = quiz.Questions.Count(question =>
                 model.Answers.TryGetValue(question.QuestionId, out var selectedAnswer) &&
                 selectedAnswer == question.CorrectAnswer);
 
-
-
             // Calculate the score
             int unanswered = totalQuestions - model.Answers.Count;
 
+            // Fetch current user id from claims, handle null case
+            var userIdString = HttpContext.Session.GetString("UserId");
+            if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
+            {
+                return RedirectToAction("Login", "Authentication", new { alert = "Please log in first" });
+            }
+
+
+            // After calculating score in QuizController
+            var attempt = new QuizAttempt
+            {
+                UserId = userId,
+                QuizId = quiz.QuizId,
+                Score = correctAnswers,
+                TotalQuestions = totalQuestions,
+                AttemptedAt = DateTime.UtcNow
+            };
+            _context.QuizAttempts.Add(attempt);
+            await _context.SaveChangesAsync();
+
             // Redirect to the QuizResult action with the calculated data
             return RedirectToAction("QuizResult", new { quizId = model.QuizId, correctAnswers, totalQuestions, unanswered });
-
         }
+
 
 
 

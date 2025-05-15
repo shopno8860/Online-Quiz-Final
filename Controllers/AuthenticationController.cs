@@ -120,6 +120,7 @@ namespace Online_Quiz_App.Controllers
         // POST: Handle Login
         [HttpPost]
         public async Task<IActionResult> Login(string email, string password)
+
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
 
@@ -133,6 +134,7 @@ namespace Online_Quiz_App.Controllers
             HttpContext.Session.SetString("UserEmail", user.Email);
             HttpContext.Session.SetString("UserName", user.FullName);
             HttpContext.Session.SetString("UserRole", user.Role);
+            HttpContext.Session.SetString("UserId", user.Id.ToString());
 
             // Redirect based on role
             if (user.Role == "Teacher")
@@ -151,6 +153,8 @@ namespace Online_Quiz_App.Controllers
             ViewBag.ErrorMessage = "Invalid role.";
             return View();
         }
+       
+   
 
         // Logout
         [HttpGet]

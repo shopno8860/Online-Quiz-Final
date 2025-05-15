@@ -174,15 +174,24 @@
                         }
                     </ul>
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        @if (userEmail != null)
+                        @if (userEmail != null && userRole == "Admin")
                         {
                             <li class="nav-item d-flex align-items-center">
-                                <span class="nav-link welcome-text">Welcome, @userName!</span>
+                                <span class="nav-link welcome-text" >Welcome, @userName!</span>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="Authentication" asp-action="Logout">Logout</a>
                             </li>
                         }
+                        else if (userEmail != null)
+                        {
+                            <li class="nav-item d-flex align-items-center">
+                                <a class="nav-link welcome-text" asp-controller="UserProfile" asp-action="Index">Welcome, @userName!</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Authentication" asp-action="Logout">Logout</a>
+                            </li>
+                         } 
                         else
                         {
                             <li class="nav-item">
@@ -221,7 +230,7 @@
                     <ul class="list-unstyled">
                         <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                         <li><a asp-controller="Home" asp-action="Privacy">Contact</a></li>
-                        <li><a asp-controller="Authentication" asp-action="Login">Login</a></li>
+                        <li><a asp-controller="Quiz" asp-action="Home">Quizes</a></li>
                     </ul>
                 </div>
 
