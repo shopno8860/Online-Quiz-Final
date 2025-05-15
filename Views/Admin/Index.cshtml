@@ -1,0 +1,160 @@
+﻿@model Online_Quiz_App.Controllers.AdminDashboardViewModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container py-5">
+    <h2 class="text-center text-warning display-5 fw-bold mb-5">Admin Dashboard</h2>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger shadow-sm rounded-4">@TempData["Error"]</div>
+    }
+
+    <div class="row g-4 mb-5">
+        <!-- Add Teacher -->
+        <div class="col-md-6">
+            <div class="card glass-card p-4">
+                <h4 class="text-white mb-3">Add Teacher</h4>
+                <form asp-action="AddTeacher" method="post">
+                    <input name="fullName" placeholder="Full Name" class="form-control mb-2" required />
+                    <input name="email" type="email" placeholder="Email" class="form-control mb-2" required />
+                    <input name="password" type="password" placeholder="Password" class="form-control mb-3" required />
+                    <button type="submit" class="btn btn-warning w-100 fw-bold">Add Teacher</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Add Student -->
+        <div class="col-md-6">
+            <div class="card glass-card p-4">
+                <h4 class="text-white mb-3">Add Student</h4>
+                <form asp-action="AddStudent" method="post">
+                    <input name="fullName" placeholder="Full Name" class="form-control mb-2" required />
+                    <input name="email" type="email" placeholder="Email" class="form-control mb-2" required />
+                    <input name="password" type="password" placeholder="Password" class="form-control mb-3" required />
+                    <button type="submit" class="btn btn-warning w-100 fw-bold">Add Student</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Teachers Table -->
+    <div class="glass-card p-4 mb-4">
+        <h4 class="text-white">Teachers</h4>
+        <table class="table table-dark table-hover table-striped rounded-3 overflow-hidden">
+            <thead class="table-light text-dark">
+                <tr><th>Name</th><th>Email</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var t in Model.Teachers)
+                {
+                    <tr>
+                        <td>@t.FullName</td>
+                        <td>@t.Email</td>
+                        <td>
+                            <a asp-action="EditUser" asp-route-id="@t.Id" class="btn btn-info btn-sm rounded-pill px-3 me-2">Edit</a>
+                            <form asp-action="DeleteUser" method="post" style="display:inline">
+                                <input type="hidden" name="id" value="@t.Id" />
+                                <button type="submit" class="btn btn-danger btn-sm rounded-pill px-3">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+    <!-- Students Table -->
+    <div class="glass-card p-4 mb-4">
+        <h4 class="text-white">Students</h4>
+        <table class="table table-dark table-hover table-striped rounded-3 overflow-hidden">
+            <thead class="table-light text-dark">
+                <tr><th>Name</th><th>Email</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var s in Model.Students)
+                {
+                    <tr>
+                        <td>@s.FullName</td>
+                        <td>@s.Email</td>
+                        <td>
+                            <a asp-action="EditUser" asp-route-id="@s.Id" class="btn btn-info btn-sm rounded-pill px-3 me-2">Edit</a>
+                            <form asp-action="DeleteUser" method="post" style="display:inline">
+                                <input type="hidden" name="id" value="@s.Id" />
+                                <button type="submit" class="btn btn-danger btn-sm rounded-pill px-3">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+    <!-- Quiz Management -->
+    <div class="text-center mt-5">
+        <a asp-action="ManageQuiz" class="btn btn-success px-4 py-2 fw-bold rounded-pill shadow">Go to Quiz Management</a>
+    </div>
+</div>
+
+<!-- Styles -->
+<style>
+    body {
+        background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
+        color: white;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .glass-card {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 16px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    input.form-control {
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+    }
+
+        input.form-control::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+    .table thead th {
+        background-color: #ffc107;
+    }
+
+    .btn-warning {
+        border-radius: 30px;
+        transition: 0.3s ease;
+        box-shadow: 0 4px 12px rgba(255, 193, 7, 0.4);
+    }
+
+        .btn-warning:hover {
+            background-color: #ff9800;
+            box-shadow: 0 0 16px rgba(255, 152, 0, 0.8);
+        }
+
+    .btn-danger {
+        transition: 0.3s;
+    }
+
+        .btn-danger:hover {
+            box-shadow: 0 0 12px rgba(255, 0, 0, 0.6);
+        }
+
+    .btn-success {
+        transition: 0.3s;
+        box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+    }
+
+        .btn-success:hover {
+            background-color: #28a745 !important;
+            box-shadow: 0 0 14px rgba(40, 167, 69, 0.7);
+        }
+</style>
