@@ -135,6 +135,9 @@ namespace Online_Quiz_App.Controllers
             HttpContext.Session.SetString("UserName", user.FullName);
             HttpContext.Session.SetString("UserRole", user.Role);
             HttpContext.Session.SetString("UserId", user.Id.ToString());
+           
+
+
 
             // Redirect based on role
             if (user.Role == "Teacher")

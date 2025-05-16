@@ -4,24 +4,24 @@
 }
 
 <div class="container py-5">
-    <h2 class="text-center text-warning display-5 fw-bold mb-4">Edit User</h2>
+    <h2 class="text-center text-warning display-5 fw-bold mb-4 animate-fadein">Update User Info</h2>
 
-    <form asp-action="EditUser" method="post" class="glass-card p-5 mx-auto" style="max-width: 500px;">
+    <form asp-action="EditUser" method="post" class="glass-card animate-popup p-5 mx-auto" style="max-width: 500px;">
         <input type="hidden" asp-for="Id" />
 
         <div class="mb-4">
-            <label asp-for="FullName" class="form-label text-white">Full Name</label>
-            <input asp-for="FullName" class="form-control styled-input" required />
+            <label asp-for="FullName" class="form-label text-warning fw-semibold">Full Name</label>
+            <input asp-for="FullName" class="form-control styled-input" placeholder="Enter your full name" required />
         </div>
 
         <div class="mb-4">
-            <label asp-for="Email" class="form-label text-white">Email</label>
-            <input asp-for="Email" class="form-control styled-input" required />
+            <label asp-for="Email" class="form-label text-warning fw-semibold">Email</label>
+            <input asp-for="Email" class="form-control styled-input" placeholder="Enter your email" required />
         </div>
 
         <div class="mb-4">
-            <label asp-for="Password" class="form-label text-white">Password <span class="text-muted">(leave blank to keep current)</span></label>
-            <input asp-for="Password" class="form-control styled-input" type="password" />
+            <label asp-for="Password" class="form-label text-warning fw-semibold">Password <span class="text-muted">(leave blank to keep current)</span></label>
+            <input asp-for="Password" class="form-control styled-input" type="password" placeholder="Enter new password (optional)" />
         </div>
 
         <button type="submit" class="btn btn-warning w-100 fw-bold rounded-pill shadow-sm">💾 Save Changes</button>
@@ -29,7 +29,7 @@
     </form>
 </div>
 
-<!-- Custom Styles -->
+<!-- ✨ Custom Styles -->
 <style>
     body {
         background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
@@ -41,7 +41,10 @@
         background: rgba(255, 255, 255, 0.06);
         border-radius: 20px;
         border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        animation: zoomFadeIn 0.4s ease;
     }
 
     .styled-input {
@@ -50,6 +53,7 @@
         color: white;
         border-radius: 12px;
         transition: all 0.3s ease-in-out;
+        padding: 10px;
     }
 
         .styled-input::placeholder {
@@ -64,6 +68,8 @@
         }
 
     .btn-warning {
+        background-color: #ffc107;
+        border: none;
         transition: 0.3s ease;
         box-shadow: 0 4px 14px rgba(255, 193, 7, 0.4);
     }
@@ -84,4 +90,10 @@
             color: #2c5364;
             box-shadow: 0 0 14px rgba(255, 255, 255, 0.6);
         }
+
+    .form-label {
+        font-size: 0.95rem;
+    }
+
+    
 </style>

@@ -183,6 +183,15 @@
                                 <a class="nav-link" asp-controller="Authentication" asp-action="Logout">Logout</a>
                             </li>
                         }
+                        else if (userEmail != null && userRole == "Teacher")
+                        {
+                            <li class="nav-item d-flex align-items-center">
+                                <span class="nav-link welcome-text">Welcome, @userName!</span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Authentication" asp-action="Logout">Logout</a>
+                            </li>
+                        }
                         else if (userEmail != null)
                         {
                             <li class="nav-item d-flex align-items-center">
@@ -230,7 +239,18 @@
                     <ul class="list-unstyled">
                         <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                         <li><a asp-controller="Home" asp-action="Privacy">Contact</a></li>
-                        <li><a asp-controller="Quiz" asp-action="Home">Quizes</a></li>
+                        @if (userRole == "Admin")
+                        {
+                            <li><a asp-controller="Admin" asp-action="Index">Admin Tools</a></li>
+                        }
+                        else if (userRole == "Teacher")
+                        {
+                            <li><a asp-controller="Quiz" asp-action="Teacher">Teacher Tools</a></li>
+                        }
+                        else
+                        {
+                            <li><a asp-controller="Quiz" asp-action="Home">Quizzes</a></li>
+                        }
                     </ul>
                 </div>
 

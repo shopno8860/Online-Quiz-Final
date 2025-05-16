@@ -131,6 +131,9 @@
             <i class="bi bi-lock-fill form-icon"></i>
             <div class="input-group">
                 <input type="password" id="password" name="password" class="form-control" required />
+                <span class="input-group-text" style="cursor:pointer; background:rgba(255,255,255,0.15);" onclick="togglePassword()">
+                    <i id="togglePasswordIcon" class="bi bi-eye"></i>
+                </span>
             </div>
         </div>
 
@@ -146,3 +149,22 @@
         <a href="/Authentication/ForgotPassword" class="forgot-password">Forgot Password?</a>
     </div>
 </div>
+
+
+@section Scripts {
+    <script>
+        function togglePassword() {
+            var passwordInput = document.getElementById('password');
+            var icon = document.getElementById('togglePasswordIcon');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            }
+        }
+    </script>
+}

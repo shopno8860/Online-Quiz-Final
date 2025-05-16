@@ -120,18 +120,29 @@
             <input type="email" id="Email" name="Email" class="form-control" required />
         </div>
 
-        <div class="mb-3">
+        <div class="mb-3 position-relative">
             <label for="Password" class="form-label">Password</label>
-            <input type="password" id="Password" name="Password" class="form-control" required />
+            <div class="input-group">
+                <input type="password" id="Password" name="Password" class="form-control" required />
+                <span class="input-group-text" style="cursor:pointer; background:rgba(255,255,255,0.15);" onclick="togglePassword('Password', 'togglePasswordIcon')">
+                    <i id="togglePasswordIcon" class="bi bi-eye"></i>
+                </span>
+            </div>
             <div class="form-text">
                 Password must be at least 6 characters, contain 1 uppercase, 1 lowercase, and 1 symbol.
             </div>
         </div>
 
-        <div class="mb-3">
+        <div class="mb-3 position-relative">
             <label for="ConfirmPassword" class="form-label">Confirm Password</label>
-            <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-control" required />
+            <div class="input-group">
+                <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-control" required />
+                <span class="input-group-text" style="cursor:pointer; background:rgba(255,255,255,0.15);" onclick="togglePassword('ConfirmPassword', 'toggleConfirmPasswordIcon')">
+                    <i id="toggleConfirmPasswordIcon" class="bi bi-eye"></i>
+                </span>
+            </div>
         </div>
+
 
         <div class="mb-3">
             <label for="Role" class="form-label">Role</label>
@@ -154,6 +165,20 @@
 
 @section Scripts {
     <script>
+        function togglePassword(inputId, iconId) {
+            var passwordInput = document.getElementById(inputId);
+            var icon = document.getElementById(iconId);
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            }
+        }
+
         function validatePasswords() {
             var password = document.getElementById('Password').value;
             var confirmPassword = document.getElementById('ConfirmPassword').value;
@@ -171,3 +196,4 @@
         }
     </script>
 }
+

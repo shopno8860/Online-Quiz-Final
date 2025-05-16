@@ -49,13 +49,59 @@
             background-color: #f4f4f4;
             color: #333;
         }
+
+    .modal-content {
+        background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        color: #fff;
+    }
+
+    .modal-header, .modal-footer {
+        border: none;
+    }
+
+    .modal-title {
+        font-weight: bold;
+        color: #ffc107;
+    }
+
+    .modal-body input[type="text"] {
+        background-color: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+    }
+
+        .modal-body input[type="text"]::placeholder {
+            color: #ccc;
+        }
+
+    .modal-body .form-label {
+        color: #ffc107;
+    }
+
+    .modal-footer .btn-primary {
+        background-color: #ffc107;
+        border: none;
+        color: #333;
+        font-weight: 500;
+    }
+
+    .modal-footer .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+        font-weight: 500;
+    }
 </style>
 
 <div class="quiz-panel">
-    <h2 class="mb-4 text-center">Teacher Panel</h2>
+    <h2 class="mb-4 text-center">Manage Quizzes</h2>
 
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h4>Manage Quizzes</h4>
+        @* <h4>Manage Quizzes</h4> *@
         <a href="@Url.Action("Create", "Quiz")" class="btn btn-primary">Add New Quiz</a>
     </div>
 

@@ -24,7 +24,7 @@ using (var scope = app.Services.CreateScope())
     {
         var adminUser = new User
         {
-            FullName = "Admin User",
+            FullName = "Admin",
             Email = "admin@gmail.com",
             Password = "admin123", // Consider hashing in production!
             Role = "Admin",

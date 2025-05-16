@@ -1,5 +1,31 @@
 ﻿@{
     ViewData["Title"] = "Quiz Result";
+    double rawScore = ViewBag.Score ?? 0;
+    int score = (int)rawScore;
+
+    string performance = "Unknown";
+    string performanceColor = "secondary";
+
+    if (score >= 90)
+    {
+        performance = "Excellent";
+        performanceColor = "success";
+    }
+    else if (score >= 75)
+    {
+        performance = "Good";
+        performanceColor = "info";
+    }
+    else if (score >= 50)
+    {
+        performance = "Average";
+        performanceColor = "warning";
+    }
+    else
+    {
+        performance = "Poor";
+        performanceColor = "danger";
+    }
 }
 
 <style>
@@ -10,28 +36,22 @@
     }
 
     .result-container {
-        max-width: 600px;
+        max-width: 700px;
         margin: auto;
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(255, 255, 255, 0.06);
         border-radius: 15px;
-        padding: 40px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-        backdrop-filter: blur(8px);
+        padding: 30px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
     }
 
         .result-container h2 {
-            font-size: 2.5rem;
-            color: #ffeb3b;
-            margin-bottom: 25px;
+            font-size: 2.3rem;
+            color: #ffca28;
         }
 
         .result-container p {
             font-size: 1.2rem;
-            margin-bottom: 15px;
-        }
-
-        .result-container strong {
-            color: #00eaff;
         }
 
     .btn-custom {
@@ -48,8 +68,33 @@
         .btn-custom:hover {
             background: linear-gradient(45deg, #0072ff, #00c6ff);
             transform: scale(1.05);
-            color: #fff;
         }
+
+    .badge-performance {
+        font-size: 1rem;
+        padding: 6px 15px;
+        border-radius: 20px;
+    }
+
+    .question-list li {
+        background: rgba(255,255,255,0.08);
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 10px;
+    }
+
+    .correct-answer {
+        color: #00eaff;
+    }
+
+    .wrong-answer {
+        color: #ff7675;
+    }
+
+    .unanswered {
+        color: #ccc;
+        font-style: italic;
+    }
 </style>
 
 <div class="container py-5 text-center">
@@ -57,8 +102,63 @@
         <h2>🎉 Quiz Result 🎉</h2>
         <p>You answered <strong>@ViewBag.CorrectAnswers</strong> out of <strong>@ViewBag.TotalQuestions</strong> questions correctly.</p>
         <p>Unanswered Questions: <strong>@ViewBag.Unanswered</strong></p>
-        <p class="fs-3">Your Score: <strong>@ViewBag.Score%</strong></p>
+        <p class="fs-4">Your Score: <strong>@rawScore%</strong></p>
+        <p class="fs-5">
+            Performance:
+            <span class="badge bg-@performanceColor badge-performance">@performance</span>
+        </p>
 
         <a href="@Url.Action("Home", "Quiz")" class="btn btn-custom mt-4">🔙 Back to Quizzes</a>
+
+        @if (ViewBag.QuizResultDetails != null)
+        {
+            var details = (IEnumerable<dynamic>)ViewBag.QuizResultDetails;
+
+            <div class="question-list text-start mt-4">
+                <h4 class="mb-3 text-info">✅ Correct Answers</h4>
+                <ul class="list-unstyled">
+                    @foreach (var q in details)
+                    {
+                        if (q.IsCorrect)
+                        {
+                            <li>
+                                <div><strong>Q:</strong> @q.QuestionText</div>
+                                <div class="correct-answer">Your Answer: @q.UserAnswer</div>
+                            </li>
+                        }
+                    }
+                </ul>
+
+                <h4 class="mt-4 mb-3 text-warning">❌ Wrong Answers</h4>
+                <ul class="list-unstyled">
+                    @foreach (var q in details)
+                    {
+                        if (!q.IsCorrect && !q.IsUnanswered)
+                        {
+                            <li>
+                                <div><strong>Q:</strong> @q.QuestionText</div>
+                                <div class="wrong-answer">Your Answer: @q.UserAnswer</div>
+                                <div class="correct-answer">Correct Answer: @q.CorrectAnswer</div>
+                            </li>
+                        }
+                    }
+                </ul>
+
+                <h4 class="mt-4 mb-3 text-danger">🚫 Unanswered</h4>
+                <ul class="list-unstyled">
+                    @foreach (var q in details)
+                    {
+                        if (q.IsUnanswered)
+                        {
+                            <li>
+                                <div><strong>Q:</strong> @q.QuestionText</div>
+                                <div class="unanswered">You did not answer this question.</div>
+                                <div class="correct-answer">Correct Answer: @q.CorrectAnswer</div>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        }
     </div>
 </div>
