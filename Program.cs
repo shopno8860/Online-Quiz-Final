@@ -35,6 +35,10 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+builder.WebHost.UseUrls($"http://*:{port}");
+
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
